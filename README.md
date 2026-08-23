@@ -22,7 +22,7 @@
 
 ## 安装
 
-### 方式一：装成 Claude Code 插件（推荐，任何项目里都能用）
+### 方式一：Claude Code —— 插件市场一键安装（推荐）
 
 ```
 /plugin marketplace add Rskyss/wechat-writing-agent
@@ -38,9 +38,29 @@
 
 （插件装在 `~/.claude/plugins/` 下；直接说「打开写作规则的 introduction.md 帮我改成我的号」，Claude 会找到它。）
 
-### 方式二：clone 整个仓库当项目脚手架
+### 方式二：Codex / CodeBuddy(WorkBuddy) —— 拷进各自的 skills 目录
 
-想要本地预览应用、想改脚本、或者用 Codex / Kiro / Antigravity 的，走这条：
+这两个工具都支持同一套 `SKILL.md` 标准，但**没有从 GitHub 一键安装的机制**，需要手动拷：
+
+```bash
+git clone https://github.com/Rskyss/wechat-writing-agent.git
+cd wechat-writing-agent
+
+# Codex（全局装，任何项目可用）
+cp -r skills/* ~/.codex/skills/
+# 或只在当前项目用： cp -r skills/* .codex/skills/
+
+# CodeBuddy / WorkBuddy
+cp -r skills/* ~/.codebuddy/skills/
+```
+
+拷完就有 5 个 skill 可用。CodeBuddy 明确支持 `${CLAUDE_SKILL_DIR}` 变量；Codex 若不展开该变量，每个 SKILL.md 顶部都写明了「按相对本文件的目录解析」，模型照样能找到规则文件。
+
+Codex 用户另有一条路：直接 clone 整个仓库进去写，仓库根的 `AGENTS.md` 就是给 Codex 的入口，规则会自动生效。
+
+### 方式三：clone 整个仓库当项目脚手架
+
+想要本地预览应用、想改脚本、或者用 Kiro / Antigravity 的，走这条：
 
 ```bash
 git clone https://github.com/Rskyss/wechat-writing-agent.git writing && cd writing

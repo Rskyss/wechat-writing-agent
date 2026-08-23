@@ -5,6 +5,8 @@ description: Remove AI-generated tone and rewrite text to sound like a real nati
 
 # Humanizer-Zh Skill
 
+> **路径说明**：下文的 `${CLAUDE_SKILL_DIR}` 指本 skill 所在目录。若你的工具不展开这个变量（Claude Code、CodeBuddy/WorkBuddy 会展开），按**相对本文件所在目录**解析即可，效果相同。
+
 This skill transforms "AI-written text" into "Human-written text".
 
 ## Detection Indicators (What to remove)

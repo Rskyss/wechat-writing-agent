@@ -4,6 +4,8 @@ description: Generate high-conversion headlines and marketing copy using Corey H
 ---
 
 # Copywriting Skill
+> **路径说明**：下文的 `${CLAUDE_SKILL_DIR}` 指本 skill 所在目录。若你的工具不展开这个变量（Claude Code、CodeBuddy/WorkBuddy 会展开），按**相对本文件所在目录**解析即可，效果相同。
+
 Based on MarketingExamples.com & Corey Haines' top principles.
 
 ## Core Rules (The "Kernel")

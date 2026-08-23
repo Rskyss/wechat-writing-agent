@@ -5,6 +5,8 @@ description: Use when the user asks to write, plan, draft, review, polish, or pu
 
 # 公众号写作 Skill
 
+> **路径说明**：下文的 `${CLAUDE_SKILL_DIR}` 指本 skill 所在目录。若你的工具不展开这个变量（Claude Code、CodeBuddy/WorkBuddy 会展开），按**相对本文件所在目录**解析即可，效果相同。
+
 一条带强制检查点的中文长文流水线：选题 → 角度 → 车道 → 标题 → 正文 → 质检 → 转微信 HTML。
 
 规则正本全部在本 skill 目录内，禁止凭记忆执行——每次都读文件。
