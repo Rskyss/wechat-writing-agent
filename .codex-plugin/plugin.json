@@ -1,10 +1,21 @@
 {
   "name": "wechat-writing",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "公众号中文长文写作流水线：6 个强制检查点（选题→角度→车道→标题→正文→质检→转 HTML），A–E 类 AI 味词汇/句式黑名单，以及一个自动质检脚本（结构字数 / AI 味 / 人设黑名单 / 引用溯源）。规则文件需按自己的号改写后使用。",
-  "author": { "name": "Rskyss" },
+  "author": {
+    "name": "Rskyss"
+  },
   "homepage": "https://github.com/Rskyss/wechat-writing-agent",
   "repository": "https://github.com/Rskyss/wechat-writing-agent",
   "license": "MIT",
-  "keywords": ["writing", "chinese", "wechat", "公众号", "editorial", "content", "ai-tone", "quality-check"]
+  "keywords": [
+    "writing",
+    "chinese",
+    "wechat",
+    "公众号",
+    "editorial",
+    "content",
+    "ai-tone",
+    "quality-check"
+  ]
 }
