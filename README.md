@@ -22,39 +22,48 @@
 
 ## 安装
 
-三个工具都支持从 GitHub 一键安装。
+**这就是 5 个标准 `SKILL.md` 技能**（write-article、house-style、humanizer-zh、copywriting、twitter-capture），装到哪个工具都是同一套东西。各家只是取用方式不同。
 
-### Claude Code
+### 通用：一条命令装到任意工具
+
+```bash
+git clone https://github.com/Rskyss/wechat-writing-agent.git && cd wechat-writing-agent
+bash install.sh                    # 自动识别你装了哪些工具，全装上
+```
+
+也可以指定：`bash install.sh workbuddy` / `codebuddy` / `codex` / `claude`，
+加 `--project` 则装到当前项目而非用户全局。
+
+技能落到各自的目录：`~/.workbuddy/skills/`、`~/.codebuddy/skills/`、`~/.codex/skills/`、`~/.claude/skills/`。
+
+### Claude Code / Codex：也可以走插件市场
+
+这两家支持从 GitHub 直接拉，不用先 clone：
 
 ```
+# Claude Code
 /plugin marketplace add Rskyss/wechat-writing-agent
 /plugin install wechat-writing@wechat-writing-agent
 ```
 
-### Codex
-
 ```bash
+# Codex
 codex plugin marketplace add Rskyss/wechat-writing-agent
 codex plugin add wechat-writing@wechat-writing-agent
 ```
 
-### CodeBuddy / WorkBuddy
+### WorkBuddy：也可以直接把仓库地址丢给它
 
-```
-/plugin marketplace add Rskyss/wechat-writing-agent
-/plugin install wechat-writing@wechat-writing-agent
-```
+在对话里贴上本仓库地址，让它帮你装，它会自己把技能放进 `~/.workbuddy/skills/`。
 
-装完在任意项目里说「写文章」即可触发，5 个 skill（write-article、house-style、humanizer-zh、copywriting、twitter-capture）一起到位。规则、车道、质检脚本都随插件走，不依赖当前目录。
+---
 
-> 同一个仓库能被三家识别，是因为三者的 skills 布局一致（都要求顶层 `skills/<name>/SKILL.md`），只是各自读不同的清单文件：`.claude-plugin/`、`.codex-plugin/` + `.agents/plugins/`、`.codebuddy-plugin/`。三套清单并存，互不干扰。
+**装完第一件事**：规则里的人设、读者定位、字数区间来自一个具体的号，直接用会让你的稿子带上别人的味道。要改的两个文件：
 
-**装完第一件事**：规则里的人设、读者定位、字数区间来自一个具体的号，直接用会让你的稿子带上别人的味道。让 AI 帮你改写这两个文件：
+- `write-article/rules/introduction.md` — 我是谁、写给谁、号的承诺
+- `write-article/rules/persona.md` — 口吻、A–E 类黑名单、红线
 
-- `skills/write-article/rules/introduction.md` — 我是谁、写给谁、号的承诺
-- `skills/write-article/rules/persona.md` — 口吻、A–E 类黑名单、红线
-
-直接说「打开写作规则的 introduction.md 帮你改成我的号」，AI 会在插件目录里找到它。
+直接跟 AI 说「打开写作规则的 introduction.md，帮我改成我的号」即可。
 
 ### 另一条路：clone 整个仓库当项目脚手架
 
