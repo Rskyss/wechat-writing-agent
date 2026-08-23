@@ -22,7 +22,7 @@ Based on MarketingExamples.com & Corey Haines' top principles.
 - **Rule**: Write as if talking to one person across the table. Use "I" for experience, "You" for benefit.
 
 ### 4. The Ban List (禁用词)
-- 中文禁用词(综上所述/本质上/颠覆性/革命性/在当今时代等)统一以 `agent/rules/persona.md`「词汇黑名单」为准,不在此重复。
+- 中文禁用词(综上所述/本质上/颠覆性/革命性/在当今时代等)统一以 `skills/write-article/rules/persona.md`「词汇黑名单」为准,不在此重复。
 - 英文同理避免:Revolutionize、Game-changing、Unlock(非实体)、In today's digital landscape、In conclusion。
 
 ## Headline Formulas (For Step 4)

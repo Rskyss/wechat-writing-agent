@@ -20,42 +20,58 @@
 
 ---
 
-## 快速开始
+## 安装
 
-```bash
-git clone <this-repo> writing && cd writing
+### 方式一：装成 Claude Code 插件（推荐，任何项目里都能用）
 
-# 1. 改成你自己的号（必做，否则所有稿子都会往示例人设上靠）
-#    agent/rules/introduction.md   —— 我是谁、写给谁、号的承诺
-#    agent/rules/persona.md        —— 口吻、黑名单、红线
-
-# 2. 填账号资料（可选，只影响转换出的 HTML 里的名片和文首图）
-cp account_profile.example.json account_profile.json   # 然后填自己的
-
-# 3. 用任意支持的 AI 工具打开这个目录，说「写文章」
+```
+/plugin marketplace add Rskyss/wechat-writing-agent
+/plugin install wechat-writing@wechat-writing-agent
 ```
 
-工具会自动读到门牌 → 门牌指向 `agent/` 大脑 → 按 `agent/workflows/write_article.md` 走完整流程。
+装完在任意项目里说「写文章」即可触发。规则、车道、质检脚本都随插件走，不依赖当前目录。
+
+**装完第一件事**：规则里的人设、读者定位、字数区间来自一个具体的号，直接用会让你的稿子带上别人的味道。让 Claude 帮你改写这两个文件：
+
+- `rules/introduction.md` — 我是谁、写给谁、号的承诺
+- `rules/persona.md` — 口吻、A–E 类黑名单、红线
+
+（插件装在 `~/.claude/plugins/` 下；直接说「打开写作规则的 introduction.md 帮我改成我的号」，Claude 会找到它。）
+
+### 方式二：clone 整个仓库当项目脚手架
+
+想要本地预览应用、想改脚本、或者用 Codex / Kiro / Antigravity 的，走这条：
+
+```bash
+git clone https://github.com/Rskyss/wechat-writing-agent.git writing && cd writing
+cp account_profile.example.json account_profile.json   # 填自己的号名和名片（可选）
+./1.sh                                                  # 启动本地预览（端口 8000）
+```
+
+四套工具的门牌都已配好，打开目录说「写文章」即可。
 
 ---
 
-## 架构：为什么是「一个大脑 + 多张门牌」
+## 架构：规则正本 = 插件本体 + 多张门牌
 
 每个 AI 工具只认自己门口的特殊文件（Claude Code 认 `CLAUDE.md`，Codex 认 `AGENTS.md`…）。如果每个工具各存一份规则，改一次要改四处，很快就会不一致。
 
-所以：规则**只有一份正本**放在中立的 `agent/`（不带点、不属于任何工具），每个工具门口放**一张指向它的薄门牌**，本身不存规则。
+所以：规则**只有一份正本**放在 `skills/write-article/`，每个工具门口放**一张指向它的薄门牌**，本身不存规则。
+
+正本之所以放在 `skills/` 而不是一个中立的 `agent/` 文件夹，是因为 Claude Code 安装插件时**只复制插件目录本身**——规则放在目录外，装到别人机器上就只剩一张空纸条。放进去之后，规则、车道、质检脚本随插件一起走。
 
 | 文件/目录 | 角色 |
 |---|---|
-| **`agent/`** | **唯一正本**：身份 / 性格 / 写作方法 / 车道 / 技能 |
-| `CLAUDE.md` + `.claude/skills/` | Claude Code 的门牌 |
+| **`skills/`** | **唯一正本**：身份 / 性格 / 写作方法 / 车道 / 脚本，同时是插件本体 |
+| `.claude-plugin/` | 插件与市场清单（让别人能装） |
+| `CLAUDE.md` | Claude Code 在本仓库内的门牌 |
 | `AGENTS.md` | Codex 的门牌 |
 | `.kiro/steering/` + `.kiro/hooks/` | Kiro 的门牌 |
 | `.agent/rules/_brain-pointer.md` | Antigravity 的门牌（always_on） |
 
-**改规则只改 `agent/` 一处，四套工具同时生效。**
+**改规则只改 `skills/` 一处，四套工具同时生效。**
 
-如果你的工具不在表里（Cursor、Cline、Windsurf、Gemini CLI…），照着 `AGENTS.md` 的格式新建一张薄门牌即可，内容就一句话：规则在 `agent/`，先读这四个文件。
+如果你的工具不在表里（Cursor、Cline、Windsurf、Gemini CLI…），照着 `AGENTS.md` 的格式新建一张薄门牌即可，内容就一句话：规则在 `skills/write-article/`，先读 rules 下那两个文件。
 
 ---
 
@@ -86,7 +102,7 @@ cp account_profile.example.json account_profile.json   # 然后填自己的
 ## 质检：规则不靠自觉，靠脚本卡
 
 ```bash
-python3 check_article.py output/<article-slug>/<article-slug>.md
+python3 skills/write-article/scripts/check_article.py output/<article-slug>/<article-slug>.md
 ```
 
 一条命令跑完四组检查，退出码 1 表示有必须修复项：
@@ -103,30 +119,44 @@ python3 check_article.py output/<article-slug>/<article-slug>.md
 ## 目录速览
 
 ```
-agent/                🧠 大脑：唯一正本
-├── rules/
-│   ├── introduction.md   我是谁、写给谁、号的承诺   ← 必改
-│   └── persona.md        口吻、A–E 类黑名单、红线   ← 必改
-├── workflows/
-│   ├── write_article.md      长文 SOP（6 个检查点）
-│   └── image_post*.md        图文（微信图片消息）规则
-├── lanes/                车道A / 车道B / 车道C
-└── skills/               house-style、humanizer-zh、copywriting、twitter-capture…
+skills/                        📦 正本 = 插件本体（装走的就是这个）
+├── write-article/             主入口 skill
+│   ├── SKILL.md                  流程总纲，用 ${CLAUDE_SKILL_DIR} 指路
+│   ├── rules/
+│   │   ├── introduction.md       我是谁、写给谁、号的承诺   ← 必改
+│   │   └── persona.md            口吻、A–E 类黑名单、红线   ← 必改
+│   ├── workflows/
+│   │   ├── write_article.md      长文 SOP（6 个检查点）
+│   │   └── image_post*.md        图文（微信图片消息）规则
+│   ├── lanes/                    车道A / 车道B / 车道C
+│   ├── references/               商业分析、故事叙事等分析框架
+│   └── scripts/
+│       ├── check_article.py      统一质检入口（正式流程只认这个）
+│       ├── audit_article.py      结构字数检查
+│       ├── detect_ai_tone.py     AI 味检测
+│       ├── convert_to_wechat.py  Markdown → 微信 HTML
+│       └── account_profile.py    读取你的号名/名片
+├── house-style/               结构层：文章长什么样
+├── humanizer-zh/              去 AI 味
+├── copywriting/               标题与文案
+└── twitter-capture/           抓推文截图
 
-check_article.py         统一质检入口（正式流程只认这个）
-audit_article.py         结构字数检查（可单独调试）
-detect_ai_tone.py        AI 味检测（可单独调试）
-convert_to_wechat.py     Markdown → 微信 HTML
-sync_articles.py         同步到本地预览
-preview_app/             本地预览（./1.sh 启动）
-account_profile.json     你的号名/名片（本地私有，已 gitignore）
+.claude-plugin/                插件与市场清单（让别人能装）
+CLAUDE.md / AGENTS.md / .agent/ / .kiro/    各工具门牌，指向 skills/
+
+以下只在 clone 整个仓库时才有（不随插件安装）：
+preview_app/                   本地预览应用（./1.sh 启动）
+sync_articles.py               同步文章到预览列表
+fetch_published.py             抓取线上已发布文章做比对
+tests/                         脚本回归测试
+account_profile.json           你的号名/名片（本地私有，已 gitignore）
 ```
 
 ---
 
 ## 可选：第三方发布技能
 
-本仓库**不包含**第三方技能（如宝玉的 baoyu-* 全家桶：出图、转 HTML、发布到微信/X 等）。原仓库用过它们，但那是别人的作品，不随本仓库分发。需要的话请从作者本人的渠道获取，放到 `agent/skills/` 下即可被同样的门牌机制识别。
+本仓库**不包含**第三方技能（如宝玉的 baoyu-* 全家桶：出图、转 HTML、发布到微信/X 等）。原仓库用过它们，但那是别人的作品，不随本仓库分发。需要的话请从作者本人的渠道获取，放到 `skills/` 下即可被同样的门牌机制识别。
 
 内置的 `convert_to_wechat.py` 已能覆盖「Markdown → 微信 HTML」这一步，不装第三方技能也能跑完整条流水线。
 

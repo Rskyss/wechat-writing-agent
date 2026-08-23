@@ -20,7 +20,7 @@ description: 抓取推特(X.com)推文的真实截图。首选「访客详情页
 `https://x.com/i/status/<推文ID>` 对未登录访客完整渲染，**带全套真实热度数据**（浏览量/评论/转发/赞/收藏）。别被 WebFetch 的 402 骗了——那是接口层拦截，真浏览器能进。
 
 ```bash
-python3 agent/skills/twitter-capture/capture_tweet.py <推文ID> output/<slug>/images/<文件名>.png
+python3 skills/twitter-capture/capture_tweet.py <推文ID> output/<slug>/images/<文件名>.png
 ```
 
 - 长推正文会全文展开，图会长——**接受它**，或改用方法二拿原生截断卡。
@@ -36,7 +36,7 @@ python3 agent/skills/twitter-capture/capture_tweet.py <推文ID> output/<slug>/i
 搜索结果里的长推卡片是 **X 自己截断的**：真实的 Show more、真实热度行、高度只有全文的 1/3——这才是合法的短版来源。
 
 ```bash
-python3 agent/skills/twitter-capture/capture_tweet.py <推文ID> <输出.png> \
+python3 skills/twitter-capture/capture_tweet.py <推文ID> <输出.png> \
   --search 'from:用户名 "推文里一段精确短语"' --profile .x-browser-profile
 ```
 

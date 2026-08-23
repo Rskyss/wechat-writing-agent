@@ -112,6 +112,6 @@ def audit_article(file_path):
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Usage: python3 audit_article.py output/<article-slug>/<article-slug>.md")
+        print("Usage: python3 skills/write-article/scripts/audit_article.py output/<article-slug>/<article-slug>.md")
         sys.exit(1)
     audit_article(sys.argv[1])

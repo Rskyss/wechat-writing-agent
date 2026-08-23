@@ -1,6 +1,6 @@
 ---
 name: house-style
-description: 用于所有需要符合本号风格的中文写作、改写、润色、审稿、标题和微信公众号文章任务。人设与读者定位以 agent/rules/introduction.md 为准，请按自己的号改写。
+description: 用于所有需要符合本号风格的中文写作、改写、润色、审稿、标题和微信公众号文章任务。人设与读者定位以 skills/write-article/rules/introduction.md 为准，请按自己的号改写。
 ---
 
 # 本号写作风格 Skill（结构层）
@@ -12,8 +12,8 @@ description: 用于所有需要符合本号风格的中文写作、改写、润�
 
 写作、改写、润色、审稿、标题前，先加载味道层，再用本文件管结构：
 
-- `agent/rules/introduction.md` —— 我是谁、写给谁、号的承诺。
-- `agent/rules/persona.md` —— 口头禅、词汇黑名单、正反案例、自检问题（**禁用词的唯一来源**）。
+- `skills/write-article/rules/introduction.md` —— 我是谁、写给谁、号的承诺。
+- `skills/write-article/rules/persona.md` —— 口头禅、词汇黑名单、正反案例、自检问题（**禁用词的唯一来源**）。
 
 persona 管「味道」，本文件管「结构」，两者叠加，缺一不可。
 

@@ -264,19 +264,25 @@ def convert_file(input_path, output_path):
 
     full_html = '\n'.join(html_parts)
 
+    # 输出目录可能还不存在（preview_app/articles/ 不进 Git，新克隆时是空的）
+    out_dir = os.path.dirname(os.path.abspath(output_path))
+    os.makedirs(out_dir, exist_ok=True)
+
     with open(output_path, 'w', encoding='utf-8') as f:
         f.write(full_html)
 
     print(f"Successfully converted {input_path} to {output_path}")
 
-    # Auto-sync entire article list after conversion
+    # 同步本地预览列表：只在用户当前目录就是仓库脚手架时才做
+    #（cwd 有 sync_articles.py = 脚手架模式）。装成插件时 cwd 是用户自己的
+    # 项目，没有这个脚本，直接跳过——转换本身已经完成，不该报警告。
     import subprocess
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    sync_script = os.path.join(script_dir, 'sync_articles.py')
-    try:
-        subprocess.run(['python3', sync_script], check=True, cwd=script_dir)
-    except Exception as e:
-        print(f"Warning: Failed to auto-sync articles: {e}")
+    sync_script = os.path.join(os.getcwd(), 'sync_articles.py')
+    if os.path.exists(sync_script):
+        try:
+            subprocess.run(['python3', sync_script], check=True, cwd=os.getcwd())
+        except Exception as e:
+            print(f"Warning: Failed to auto-sync articles: {e}")
 
 def update_article_list(html_path):
     """Automatically update the preview app's history list"""
@@ -395,4 +401,4 @@ if __name__ == '__main__':
         convert_file(sys.argv[1], sys.argv[2])
     else:
         # Fallback for testing
-        print("Usage: python3 convert_to_wechat.py <input.md> <output.html>")
+        print("Usage: python3 skills/write-article/scripts/convert_to_wechat.py <input.md> <output.html>")

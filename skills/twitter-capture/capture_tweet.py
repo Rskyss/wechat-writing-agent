@@ -2,7 +2,7 @@
 """
 X(Twitter) 推文真实截图工具
 用法:
-  python3 agent/skills/twitter-capture/capture_tweet.py <推文URL或ID> <输出.png> [--embed] [--pad N] [--search "关键词" --profile <目录>]
+  python3 skills/twitter-capture/capture_tweet.py <推文URL或ID> <输出.png> [--embed] [--pad N] [--search "关键词" --profile <目录>]
 
 红线(最高优先级): 只允许两种像素级后处理——裁边(裁掉边缘的 UI 杂条,如访客页 Read replies 条)
 和四周留白。**严禁删改页面内容(藏图/压行/补假 UI)后冒充截图,严禁伪造任何互动数据。**

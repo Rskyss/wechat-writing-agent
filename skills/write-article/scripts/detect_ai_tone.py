@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 AI 味检测脚本 - 检测文章中的 AI 生成特征
-用法: python3 detect_ai_tone.py output/<article-slug>/<article-slug>.md
+用法: python3 skills/write-article/scripts/detect_ai_tone.py output/<article-slug>/<article-slug>.md
 """
 
 import re
@@ -475,7 +475,7 @@ def run_detection(filepath):
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("用法: python3 detect_ai_tone.py output/<article-slug>/<article-slug>.md")
+        print("用法: python3 skills/write-article/scripts/detect_ai_tone.py output/<article-slug>/<article-slug>.md")
         sys.exit(1)
 
     filepath = sys.argv[1]

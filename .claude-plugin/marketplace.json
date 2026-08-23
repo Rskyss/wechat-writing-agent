@@ -1,0 +1,16 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "wechat-writing-agent",
+  "description": "公众号写作 Agent：带强制检查点的中文长文流水线与自动质检",
+  "owner": {
+    "name": "Rskyss"
+  },
+  "plugins": [
+    {
+      "name": "wechat-writing",
+      "source": "./",
+      "description": "公众号中文长文写作流水线：6 个强制检查点、A–E 类 AI 味黑名单、自动质检脚本。",
+      "category": "writing"
+    }
+  ]
+}

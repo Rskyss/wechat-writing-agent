@@ -6,7 +6,7 @@ description: 非周一时段的新闻/热点「图文」发布规则（图片消
 
 ## 发布节奏（用户 2026-07-23 确认）
 
-- **周一**：发正式长文（走 `agent/workflows/write_article.md` 完整流程，产出在 `output/<article-slug>/`）。
+- **周一**：发正式长文（走 `skills/write-article/workflows/write_article.md` 完整流程，产出在 `output/<article-slug>/`）。
 - **其他时间**：碰到新闻、热点、方法论，不写长文，改用**图文**（以图片为主的图片消息）快速发布。
 
 ## 平台模板硬约束（微信「图片消息」编辑器，type=10，2026-07-23 截图核实）
@@ -37,7 +37,7 @@ description: 非周一时段的新闻/热点「图文」发布规则（图片消
 
 ## 视觉风格选择（生成 Prompt 前强制）
 
-- 必须读取 `agent/workflows/image_post_styles.md`。
+- 必须读取 `skills/write-article/workflows/image_post_styles.md`。
 - 内容结构和图数确定后，从风格库推荐 **3 种风格**：默认推荐、偏亲切、偏传播各 1 种，并说明适用理由。
 - 必须停下来等用户确认风格，再写整组最终 Prompt。
 - 用户已经明确指定风格，或明确说“按默认风格”，可以跳过风格确认。
@@ -61,7 +61,7 @@ description: 非周一时段的新闻/热点「图文」发布规则（图片消
 
 **形态二：外部好图转译（引用图）**——例：《Claude Code 已经不像 AI 了》
 - X 上发现的优质信息图（如 Brij Kishore Pandey 的图）：翻译/重绘成中文版发布，**图内保留原作者署名**；配文做"为什么这张图值得看"的解读。
-- **X 上找到的同类好图，先截图存进该图文文件夹的 `research/` 参考目录**（用 `agent/skills/twitter-capture/` 的路线截，同一红线：不许编辑内容后截）。research/ 里的图只做版式和内容参考，重绘时走洗稿红线：事实回一手信源核，版式可学，逐字搬运不行。
+- **X 上找到的同类好图，先截图存进该图文文件夹的 `research/` 参考目录**（用 `skills/twitter-capture/` 的路线截，同一红线：不许编辑内容后截）。research/ 里的图只做版式和内容参考，重绘时走洗稿红线：事实回一手信源核，版式可学，逐字搬运不行。
 
 ## 产出目录规则（强制，镜像 output/ 的规矩）
 

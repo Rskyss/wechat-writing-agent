@@ -6,7 +6,7 @@ description: 微信图片消息的视觉风格库与自动推荐规则，供 ima
 
 本文件只管微信「图片消息」的视觉风格选择与 Prompt 拼装。
 
-- 图文内容、目录、事实核查和交付检查点以 `agent/workflows/image_post.md` 为准。
+- 图文内容、目录、事实核查和交付检查点以 `skills/write-article/workflows/image_post.md` 为准。
 - 这里借用 Baoyu Skills 的风格、布局和 Prompt 结构，不调用它的外部图片 API。
 - 默认只产出 Prompt；用户明确说“出图”后，才调用 Codex 内置出图能力。
 

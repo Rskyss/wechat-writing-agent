@@ -1,6 +1,6 @@
 # Codex 项目说明
 
-这个仓库里放的是公众号写作流程，以及从 Antigravity（`.agent`）和 Kiro（`.kiro`）迁移过来的本地 Agent 技能。
+这个仓库里放的是公众号写作流程与配套技能，正本统一在 `skills/`。
 Codex 在这个项目里工作时，必须把这些文件当成项目级规则和可执行技能来使用。
 
 ## 禁止 6A / Superpowers
@@ -13,27 +13,27 @@ Codex 在这个项目里工作时，必须把这些文件当成项目级规则�
 ## 规则来源
 
 - 在处理中文文章写作、改写、润色、标题、文案任务前，必须先读取：
-  - `agent/rules/introduction.md`
-  - `agent/rules/persona.md`
+  - `skills/write-article/rules/introduction.md`
+  - `skills/write-article/rules/persona.md`
 - 公众号文章工作流必须遵循：
-  - `agent/workflows/write_article.md`
+  - `skills/write-article/workflows/write_article.md`
 - 微信图片消息形态的图文工作流必须遵循：
-  - `agent/workflows/image_post.md`
-  - `agent/workflows/image_post_styles.md`
-- 写作规则只有一份正本，全部放在 `agent/`（人设、风格、车道、工作流、写作类技能）。`.kiro/steering/write_article_workflow.md` 只是一张「指路牌」，把 Kiro 领回 `.agent` 读同一份正本，不再保存副本。改写作规则只改 `agent/`，Codex / Kiro 同时生效。
+  - `skills/write-article/workflows/image_post.md`
+  - `skills/write-article/workflows/image_post_styles.md`
+- 写作规则只有一份正本，全部放在 `skills/`（人设、风格、车道、工作流、质检脚本）。它同时是 Claude Code 的插件本体，所以规则必须待在插件目录内才能随安装走。各工具门口的文件（本文件、`.kiro/steering/`、`.agent/rules/`）都只是「指路牌」，不保存副本。改写作规则只改 `skills/`，Codex / Kiro / Antigravity 同时生效。
 
 ## 本地技能
 
 即使下面这些目录没有出现在 Codex 的全局技能列表里，也要把它们当成当前项目的本地 Codex 技能：
 
-- `agent/skills/*`（全部写作与工具技能的唯一正本；`.kiro/skills` 已废弃删除，不再存在）
+- `skills/*`（全部写作与工具技能的唯一正本；`.kiro/skills` 已废弃删除，不再存在）
 
 当用户请求命中某个本地技能时：
 
 1. 打开对应技能目录里的 `SKILL.md`。
 2. 按照其中的触发条件、工作流和输出要求执行。
 3. 所有相对路径里的 `references/`、`prompts/`、`scripts/`、依赖文件和素材，都要从该技能目录开始解析。
-4. 所有技能（`humanizer-zh`、`copywriting`、`house-style`、`twitter-capture` 等）都只在 `agent/skills/` 保留唯一一份正本，不要在别处存副本。
+4. 所有技能（`humanizer-zh`、`copywriting`、`house-style`、`twitter-capture` 等）都只在 `skills/` 保留唯一一份正本，不要在别处存副本。
 
 ## 脚本执行
 
@@ -48,8 +48,8 @@ Codex 在这个项目里工作时，必须把这些文件当成项目级规则�
 当用户说“图文”“图文文章”“图片消息”“滑图”“卡片图文”“信息图卡组”或类似表达时：
 
 1. 默认理解为微信图片消息，不进入普通长文工作流。
-2. 必须先读取 `agent/workflows/image_post.md` 和 `agent/workflows/image_post_styles.md`。
-3. 图文规则优先于 `agent/workflows/write_article.md` 和普通长文配图规则。
+2. 必须先读取 `skills/write-article/workflows/image_post.md` 和 `skills/write-article/workflows/image_post_styles.md`。
+3. 图文规则优先于 `skills/write-article/workflows/write_article.md` 和普通长文配图规则。
 4. 所有文件只能放在 `img_outputs/<post-slug>/`，标准结构为：
    - `copy.md`
    - `sources.md`
@@ -74,12 +74,12 @@ Codex 在这个项目里工作时，必须把这些文件当成项目级规则�
 
 当用户输入 `/write`、`/article`、`写文章`、`写公众号`，或者要求寻找选题时：
 
-1. 必须按 `agent/workflows/write_article.md` 一步一步执行。
+1. 必须按 `skills/write-article/workflows/write_article.md` 一步一步执行。
 2. 遇到每个强制检查点时，必须停下来等待用户选择。
 3. 需要当前网络资料时，优先使用 `mcp__tavily__tavily_search`；如果返回套餐额度耗尽、限流或认证错误，必须保持相同参数，依次自动改用 `mcp__tavily_backup__tavily_search`、`mcp__tavily_3__tavily_search`、`mcp__tavily_4__tavily_search`、`mcp__tavily_5__tavily_search`、`mcp__tavily_6__tavily_search`。六个入口全部不可用时再使用普通网页搜索。
 4. 工作流要求深度思考或主编审稿时，使用 `mcp__sequential_thinking__sequentialthinking`。
-5. 生成标题时，加载 `agent/skills/copywriting/SKILL.md` 里的 `copywriting` 技能。
-6. 写作和润色时，加载 `agent/skills/humanizer-zh/SKILL.md` 里的 `humanizer-zh` 技能。
+5. 生成标题时，加载 `skills/copywriting/SKILL.md` 里的 `copywriting` 技能。
+6. 写作和润色时，加载 `skills/humanizer-zh/SKILL.md` 里的 `humanizer-zh` 技能。
 7. 每次生成文章时，必须先在 `output/` 下创建一个文章专属文件夹：`output/<article-slug>/`。
    - 正文保存为：`output/<article-slug>/<article-slug>.md`
    - 图片保存到：`output/<article-slug>/images/`
@@ -89,7 +89,7 @@ Codex 在这个项目里工作时，必须把这些文件当成项目级规则�
 8. 草稿完成后，运行统一质量检查（一条命令，退出码 1 时逐项修复后重跑）：
 
    ```bash
-   python3 check_article.py output/<article-slug>/<article-slug>.md
+   python3 skills/write-article/scripts/check_article.py output/<article-slug>/<article-slug>.md
    ```
 
 ## 发布工作流
@@ -100,7 +100,7 @@ Codex 在这个项目里工作时，必须把这些文件当成项目级规则�
 2. 对内置的微信公众号预览流程，运行：
 
    ```bash
-   python3 convert_to_wechat.py output/<article-slug>/<article-slug>.md preview_app/articles/<article-slug>.html
+   python3 skills/write-article/scripts/convert_to_wechat.py output/<article-slug>/<article-slug>.md preview_app/articles/<article-slug>.html
    python3 sync_articles.py
    ```
 

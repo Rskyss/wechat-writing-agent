@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 统一质检入口 - 一条命令跑完文章发布前的全部自检
-用法: python3 check_article.py output/<article-slug>/<article-slug>.md
+用法: python3 skills/write-article/scripts/check_article.py output/<article-slug>/<article-slug>.md
 
 检查项:
   1. audit_article.py     结构/字数/第一人称
@@ -20,7 +20,9 @@ import subprocess
 import sys
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-PERSONA_PATH = os.path.join(BASE_DIR, "agent", "rules", "persona.md")
+# 规则正本与本脚本同在 skill 目录内：scripts/ 的上一级就是 skill 根
+SKILL_DIR = os.path.dirname(BASE_DIR)
+PERSONA_PATH = os.path.join(SKILL_DIR, "rules", "persona.md")
 
 # persona.md 里标注"尽量少用/有条件使用"的词，只警告不判死
 SOFT_WORDS = {"生态", "矩阵", "赛道", "颠覆性", "革命性", "划时代", "使用", "利用"}
@@ -180,7 +182,7 @@ def run_script(script, filepath):
 
 def main():
     if len(sys.argv) != 2:
-        print("用法: python3 check_article.py output/<article-slug>/<article-slug>.md")
+        print("用法: python3 skills/write-article/scripts/check_article.py output/<article-slug>/<article-slug>.md")
         sys.exit(1)
 
     filepath = sys.argv[1]

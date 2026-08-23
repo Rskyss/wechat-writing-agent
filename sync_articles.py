@@ -5,10 +5,14 @@ from datetime import datetime
 import re
 import html
 
+import sys
+
+ROOT = os.path.dirname(os.path.abspath(__file__))
+# account_profile.py 随写作 skill 一起放在 skills/write-article/scripts/
+sys.path.insert(0, os.path.join(ROOT, 'skills', 'write-article', 'scripts'))
 import account_profile
 
 ACCOUNT = account_profile.load()
-ROOT = os.path.dirname(os.path.abspath(__file__))
 
 def sync_all():
     preview_articles_dir = os.path.join(ROOT, 'preview_app', 'articles')

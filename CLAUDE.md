@@ -8,33 +8,35 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 用户身份：在 AI 领域创业的产品经理。沟通时用产品语言、避免技术黑话；输出文档/代码注释时使用中文。
 
-## 架构：一个中立大脑 + 每个工具一张门牌（重要：不要误判为冗余）
+## 架构：规则正本 = 可安装的插件本体 + 每个工具一张门牌（重要：不要误判为冗余）
 
-写作规则只有一份正本，全部放在项目根目录的中立大脑文件夹 **`agent/`**（不带点、不属于任何工具）。各 AI 工具只认自己门口的特殊文件，所以每个工具门口放**一张指向 `agent/` 的薄门牌**，本身不存规则：
+写作规则只有一份正本，全部放在 **`skills/write-article/`**。各 AI 工具只认自己门口的特殊文件，所以每个工具门口放**一张指向它的薄门牌**，本身不存规则：
 
 | 文件/目录 | 角色 |
 |---|---|
-| **`agent/`** (rules/workflows/skills/lanes) | **中立大脑 = 唯一正本**（身份/性格/书写方法/车道/技能全在这） |
-| `AGENTS.md` | Codex 的门牌 → 指向 `agent/` |
-| `.agent/` | Antigravity 的门牌（`.agent/rules/_brain-pointer.md`，always_on）→ 指向 `agent/` |
-| `.kiro/` (hooks/settings/steering) | Kiro 的门牌 + 工具配置（steering 指向 `agent/`；hooks/settings 是 Kiro 自己的配置。`.kiro/skills` 已删，不再存副本） |
-| `.claude/` | Claude Code 的门牌（`.claude/skills/write-article/`）→ 指向 `agent/` |
+| **`skills/`** (write-article + house-style/humanizer-zh/copywriting/twitter-capture) | **唯一正本**（身份/性格/书写方法/车道/脚本全在这），同时是 Claude Code 插件本体 |
+| `.claude-plugin/` | 插件与市场清单，让别人能 `/plugin marketplace add` 装走 |
+| `AGENTS.md` | Codex 的门牌 → 指向 `skills/` |
+| `.agent/` | Antigravity 的门牌（`.agent/rules/_brain-pointer.md`，always_on）→ 指向 `skills/` |
+| `.kiro/` (hooks/settings/steering) | Kiro 的门牌 + 工具配置（steering 指向 `skills/`；hooks/settings 是 Kiro 自己的配置） |
 
-**改写作规则只改 `agent/` 一处，所有工具同时生效。** 门牌只在工具"读不到 agent/ 就瞎了"时才需要动。
+**改写作规则只改 `skills/` 一处，所有工具同时生效。**
 
-> 说明：所有 skill 只在 `agent/skills/` 存唯一一份。`.kiro/` 只保留 Kiro 自己的工具配置（hooks/settings）和门牌（steering）。Python 脚本（check_article.py 等）是「手」不是「脑」，留在项目根目录，不进 `agent/`。
+> **为什么正本放在 `skills/` 而不是中立的 `agent/`**：Claude Code 安装插件时只复制插件目录本身，目录外的文件不会跟过去。规则如果放在 `agent/`，装到别人机器上就只剩一张空纸条。放进 `skills/write-article/` 后，规则、车道、质检脚本随插件一起走，装到哪都是完整的。SKILL.md 里用 `${CLAUDE_SKILL_DIR}` 指代"我自己被装在哪儿"，运行时展开成真实路径。
+>
+> 代价：`skills/` 这个名字比 `agent/` 略偏向 Claude Code 的说法，但其他三套工具照样能通过门牌读到，实际不受影响。
 
 ## 写作工作流（强制 SOP）
 
-触发词：`/write`、`/article`、"写文章"、"写公众号"。一旦触发，**严格按 `agent/workflows/write_article.md` 执行**，6 个强制 CheckPoint 不能跳过：
+触发词：`/write`、`/article`、"写文章"、"写公众号"。一旦触发，**严格按 `skills/write-article/workflows/write_article.md` 执行**，6 个强制 CheckPoint 不能跳过：
 
 1. **Step 1**：双轨搜索（公域 + 私域 Moltbot/DeepSeek/Agent），输出 10 个热点 → 等用户选 1 个
 2. **Step 2**：调 `sequentialthinking` 深度挖掘 → 输出 10 个角度（含🔥传播/🛠️实用/🧠深度评分）→ 等用户选 1 个
 3. **Step 3**：车道建议（A 爆文流 / B 干货流）→ 等用户选
-4. **Step 4**：根据 `agent/lanes/车道A.md` 或 `agent/lanes/车道B.md` 生成 10 个标题 → 等用户选
+4. **Step 4**：根据 `skills/write-article/lanes/车道A.md` 或 `skills/write-article/lanes/车道B.md` 生成 10 个标题 → 等用户选
 5. **Step 4.5**：根据内容类型自动决定模块数（3/4-5/6），不询问用户
-6. **Step 5**：写正文，**必须先加载 `agent/rules/persona.md` 的人设/口吻规则**（"本号底味"），同时实时应用 `humanizer-zh` skill 去 AI 味
-7. **Step 5.5**：自动跑统一质检 `check_article.py`；技术/科普类文章额外做**技术准确性审查**（AI 切「抬杠的领域专家」视角，专防过度简化的技术类比，见 `agent/workflows/write_article.md` Step 5.5）
+6. **Step 5**：写正文，**必须先加载 `skills/write-article/rules/persona.md` 的人设/口吻规则**（"本号底味"），同时实时应用 `humanizer-zh` skill 去 AI 味
+7. **Step 5.5**：自动跑统一质检 `check_article.py`；技术/科普类文章额外做**技术准确性审查**（AI 切「抬杠的领域专家」视角，专防过度简化的技术类比，见 `skills/write-article/workflows/write_article.md` Step 5.5）
 8. **Step 6**：转 HTML + 同步预览
 
 搜索工具优先级：`mcp__tavily__tavily_search` > 普通 web search。深度思考/主编审稿用 `mcp__sequential_thinking__sequentialthinking`。
@@ -43,7 +45,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### 文章质检（Step 5.5 强制执行，统一入口）
 ```bash
-python3 check_article.py output/<article-slug>/<article-slug>.md
+python3 skills/write-article/scripts/check_article.py output/<article-slug>/<article-slug>.md
 # 一条命令跑完 4 组检查：结构字数 → AI味(含E类对比句式) → persona黑名单(动态读取) → 平台合规/引用溯源
 # 退出码 1 = 有必须修复项，逐项修复后重跑直到通过；⚠️警告项不阻塞但要向用户报告
 ```
@@ -51,7 +53,7 @@ python3 check_article.py output/<article-slug>/<article-slug>.md
 
 ### 转换与预览（Step 6 发布流程）
 ```bash
-python3 convert_to_wechat.py output/<article-slug>/<article-slug>.md preview_app/articles/<article-slug>.html
+python3 skills/write-article/scripts/convert_to_wechat.py output/<article-slug>/<article-slug>.md preview_app/articles/<article-slug>.html
 python3 sync_articles.py
 ./1.sh   # 启动 preview_app（端口 8000 + API 8001），首次会自动建 .venv 并装依赖
 ```
@@ -63,7 +65,7 @@ python3 -m py_compile check_article.py audit_article.py detect_ai_tone.py conver
 
 ## 写作"底味"硬规则（Step 5 必读）
 
-`agent/rules/persona.md` 是写作时的最高优先级约束，也是黑名单的**唯一正本**。下面只是几类高频词的**速查**（不是完整清单，增删词一律改 persona.md，别在这里加）：
+`skills/write-article/rules/persona.md` 是写作时的最高优先级约束，也是黑名单的**唯一正本**。下面只是几类高频词的**速查**（不是完整清单，增删词一律改 persona.md，别在这里加）：
 
 - **A 类 AI 八股**：综上所述、首先/其次/最后、本质上、核心逻辑、深入探讨
 - **B 类商业黑话**：赋能、抓手、闭环、底层逻辑、降维打击、生态/矩阵/赛道
@@ -74,7 +76,7 @@ D 类是隐性的"伪真人"陷阱——AI 写惊讶时最爱用，必须换成�
 
 **原创性红线（严禁洗稿，最高优先级）**：用户给某篇文章让你"参考着写一篇"时，范文只能取**事实素材（自己回一手核）+ 选题方向**；它的开篇框架、比喻、金句、论证顺序一律不许搬，**神似也算洗稿**。AI 天生会收敛到"看到的最优模板"，参考范文时极易从"参考"滑成"复制"。参考过范文的稿，成稿必做逐段比对自查（见 `persona.md` 案例8、`write_article.md` Step 5.5 第4步）。
 
-## output 目录规则（强制，完整版见 `agent/workflows/write_article.md` Step 5）
+## output 目录规则（强制，完整版见 `skills/write-article/workflows/write_article.md` Step 5）
 
 每篇新文章必须建专属目录，**严禁**把 .md / 图 / prompt 散放到 `output/` 根目录：
 
@@ -100,6 +102,6 @@ output/<article-slug>/
 
 ## 编辑代码 / skill / 规则时的注意
 
-- 修改 `agent/skills/<name>/` 时不用再同步别处——skill 只有 `agent/skills/` 一份正本了
-- 修改写作规则（persona / workflow / humanizer）时同步检查 `agent/rules/`、`.kiro/steering/`、`AGENTS.md` 是否需要联动更新
+- 修改 `skills/<name>/` 时不用再同步别处——skill 只有 `skills/` 一份正本了
+- 修改写作规则（persona / workflow / humanizer）时同步检查 `skills/write-article/rules/`、`.kiro/steering/`、`AGENTS.md` 是否需要联动更新
 - 改完任意写作流程或脚本，记得在 `更新记录.md` 加一条
