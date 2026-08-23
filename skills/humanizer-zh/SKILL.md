@@ -91,5 +91,5 @@ Before outputting, read the text aloud (internally). If it sounds like a broadca
 ## 使用建议
 
 1. **写作时实时应用**: 每写完 2 个模块，暂停，应用本 Skill 检查这 2 个模块。
-2. **生成后全文检查**: 用 `detect_ai_tone.py` 脚本自动检测 AI 味。
+2. **生成后全文检查**: 跑 `python3 ${CLAUDE_SKILL_DIR}/../write-article/scripts/detect_ai_tone.py <文章.md>` 自动检测 AI 味。
 3. **优先修复**: 如果检测不通过，优先修复"结构工整度"和"外链真实性"（这两项最容易被 AI 检测器识别）。

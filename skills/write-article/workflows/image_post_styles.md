@@ -229,7 +229,7 @@ Prompt 片段：
 
 推荐写法：
 
-> `technical-schematic × circular-flow × 本号默认色板`
+> `technical-schematic × circular-flow × 本号默认色板（见本文件「色板」一节）`
 
 不要只写：
 

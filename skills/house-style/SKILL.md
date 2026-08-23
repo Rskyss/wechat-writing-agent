@@ -1,6 +1,6 @@
 ---
 name: house-style
-description: 用于所有需要符合本号风格的中文写作、改写、润色、审稿、标题和微信公众号文章任务。人设与读者定位以 skills/write-article/rules/introduction.md 为准，请按自己的号改写。
+description: 用于所有需要符合本号风格的中文写作、改写、润色、审稿、标题和微信公众号文章任务：管文章长什么样、怎么改写、阅读动线怎么走。人设与读者定位以 write-article skill 的 rules/introduction.md 为准，请按自己的号改写。
 ---
 
 # 本号写作风格 Skill（结构层）
@@ -12,8 +12,8 @@ description: 用于所有需要符合本号风格的中文写作、改写、润�
 
 写作、改写、润色、审稿、标题前，先加载味道层，再用本文件管结构：
 
-- `skills/write-article/rules/introduction.md` —— 我是谁、写给谁、号的承诺。
-- `skills/write-article/rules/persona.md` —— 口头禅、词汇黑名单、正反案例、自检问题（**禁用词的唯一来源**）。
+- [身份定位](${CLAUDE_SKILL_DIR}/../write-article/rules/introduction.md) —— 我是谁、写给谁、号的承诺。
+- [写作底味](${CLAUDE_SKILL_DIR}/../write-article/rules/persona.md) —— 口头禅、词汇黑名单、正反案例、自检问题（**禁用词的唯一来源**）。
 
 persona 管「味道」，本文件管「结构」，两者叠加，缺一不可。
 
@@ -97,7 +97,7 @@ persona 管「味道」，本文件管「结构」，两者叠加，缺一不可
 4. 每一节只回答一个读者问题，不要换一种说法重复同一个结论。
 5. 关键小节结尾加一句过渡，把读者带到下一节。
 6. 短句排比少用。一篇保留 1-2 处有冲击力的排比，其余改成口语解释。
-7. 结尾回到 本号的长期价值：不贩卖焦虑，帮目标读者把 AI 接进工作，也建立自己的判断力。
+7. 结尾回到本号的长期价值：不贩卖焦虑，帮目标读者把 AI 接进工作，也建立自己的判断力。
 
 好的小标题：
 
@@ -141,4 +141,4 @@ persona 管「味道」，本文件管「结构」，两者叠加，缺一不可
 
 这个 Skill 管写作味道和内容质量。
 
-`audit_article.py`、`detect_ai_tone.py` 这类脚本只是校验器。脚本通过，不等于文章合格。文章还必须符合「本号」的人设、语气、判断力和阅读动线。
+`${CLAUDE_SKILL_DIR}/../write-article/scripts/` 下的 `audit_article.py`、`detect_ai_tone.py` 只是校验器。脚本通过，不等于文章合格。文章还必须符合「本号」的人设、语气、判断力和阅读动线。
