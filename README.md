@@ -22,43 +22,41 @@
 
 ## 安装
 
-### 方式一：Claude Code —— 插件市场一键安装（推荐）
+三个工具都支持从 GitHub 一键安装。
+
+### Claude Code
 
 ```
 /plugin marketplace add Rskyss/wechat-writing-agent
 /plugin install wechat-writing@wechat-writing-agent
 ```
 
-装完在任意项目里说「写文章」即可触发。规则、车道、质检脚本都随插件走，不依赖当前目录。
-
-**装完第一件事**：规则里的人设、读者定位、字数区间来自一个具体的号，直接用会让你的稿子带上别人的味道。让 Claude 帮你改写这两个文件：
-
-- `rules/introduction.md` — 我是谁、写给谁、号的承诺
-- `rules/persona.md` — 口吻、A–E 类黑名单、红线
-
-（插件装在 `~/.claude/plugins/` 下；直接说「打开写作规则的 introduction.md 帮我改成我的号」，Claude 会找到它。）
-
-### 方式二：Codex / CodeBuddy(WorkBuddy) —— 拷进各自的 skills 目录
-
-这两个工具都支持同一套 `SKILL.md` 标准，但**没有从 GitHub 一键安装的机制**，需要手动拷：
+### Codex
 
 ```bash
-git clone https://github.com/Rskyss/wechat-writing-agent.git
-cd wechat-writing-agent
-
-# Codex（全局装，任何项目可用）
-cp -r skills/* ~/.codex/skills/
-# 或只在当前项目用： cp -r skills/* .codex/skills/
-
-# CodeBuddy / WorkBuddy
-cp -r skills/* ~/.codebuddy/skills/
+codex plugin marketplace add Rskyss/wechat-writing-agent
+codex plugin add wechat-writing@wechat-writing-agent
 ```
 
-拷完就有 5 个 skill 可用。CodeBuddy 明确支持 `${CLAUDE_SKILL_DIR}` 变量；Codex 若不展开该变量，每个 SKILL.md 顶部都写明了「按相对本文件的目录解析」，模型照样能找到规则文件。
+### CodeBuddy / WorkBuddy
 
-Codex 用户另有一条路：直接 clone 整个仓库进去写，仓库根的 `AGENTS.md` 就是给 Codex 的入口，规则会自动生效。
+```
+/plugin marketplace add Rskyss/wechat-writing-agent
+/plugin install wechat-writing@wechat-writing-agent
+```
 
-### 方式三：clone 整个仓库当项目脚手架
+装完在任意项目里说「写文章」即可触发，5 个 skill（write-article、house-style、humanizer-zh、copywriting、twitter-capture）一起到位。规则、车道、质检脚本都随插件走，不依赖当前目录。
+
+> 同一个仓库能被三家识别，是因为三者的 skills 布局一致（都要求顶层 `skills/<name>/SKILL.md`），只是各自读不同的清单文件：`.claude-plugin/`、`.codex-plugin/` + `.agents/plugins/`、`.codebuddy-plugin/`。三套清单并存，互不干扰。
+
+**装完第一件事**：规则里的人设、读者定位、字数区间来自一个具体的号，直接用会让你的稿子带上别人的味道。让 AI 帮你改写这两个文件：
+
+- `skills/write-article/rules/introduction.md` — 我是谁、写给谁、号的承诺
+- `skills/write-article/rules/persona.md` — 口吻、A–E 类黑名单、红线
+
+直接说「打开写作规则的 introduction.md 帮你改成我的号」，AI 会在插件目录里找到它。
+
+### 另一条路：clone 整个仓库当项目脚手架
 
 想要本地预览应用、想改脚本、或者用 Kiro / Antigravity 的，走这条：
 
