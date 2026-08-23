@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI公众号小助手 - 预览中心</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="app-container">
+        <!-- Sidebar -->
+        <aside id="sidebar">
+            <div class="sidebar-header">
+                <h2><span>📱</span> 历史推文预览</h2>
+            </div>
+            <div class="sidebar-inner">
+                <!-- Column 1: Article History -->
+                <div class="sidebar-col-left">
+                    <ul id="history-list">
+                        <!-- Data injected here -->
+                        <li class="history-item">加载中...</li>
+                    </ul>
+                </div>
+
+                <!-- Column 2: Extracted Information -->
+                <div class="sidebar-col-right">
+                    <div class="sidebar-tabs">
+                        <div class="tab-item active" onclick="switchTab('titles')">标题</div>
+                        <div class="tab-item" onclick="switchTab('ending')">结尾</div>
+                        <div class="tab-item" onclick="switchTab('comments')">置顶</div>
+                        <div class="tab-item" onclick="switchTab('quotes')">金句</div>
+                        <div class="tab-item" onclick="switchTab('quality')">评测</div>
+                    </div>
+
+                    <div id="sidebar-content-area">
+                        <!-- 1. Titles -->
+                        <div id="tab-titles" class="tab-content active" style="gap:10px;">
+                            <div id="title-list" style="display:flex;flex-direction:column;gap:10px;">
+                                <div style="font-size:12px;color:#999;text-align:center;padding-top:20px;">暂无备选标题</div>
+                            </div>
+                        </div>
+
+                        <!-- 2. Ending Filter -->
+                        <div id="tab-ending" class="tab-content"></div>
+
+                        <!-- 3. Pinned Comments -->
+                        <div id="tab-comments" class="tab-content"></div>
+
+                        <!-- 4. Golden Quotes -->
+                        <div id="tab-quotes" class="tab-content"></div>
+
+                        <!-- 5. Quality Check -->
+                        <div id="tab-quality" class="tab-content">
+                            <div id="quality-check-area" style="padding:15px;">
+                                <button id="run-quality-check-btn" class="quality-check-button"
+                                    onclick="runQualityCheck()">
+                                    <span>🔍</span> 开始质量检查
+                                </button>
+                                <div id="quality-result" style="margin-top:15px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Preview Area -->
+        <main id="main-preview">
+            <div id="phone-wrapper">
+                <div id="phone-screen">
+                    <div id="article-view" class="wechat-article-container">
+                        <h1 id="view-title" class="wechat-title">请从左侧选择一篇文章预览</h1>
+                        <div class="wechat-meta">
+                            <span id="view-author" class="wechat-author"></span>
+                            <span id="view-date"></span>
+                        </div>
+
+                        <div id="view-body" class="wechat-content">
+                            <!-- Content injected here -->
+                            <div style="text-align: center; color: #ccc; margin-top: 100px;">
+                                <p>👈 点击左侧列表查看看效果</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="word-count-info" class="word-count-pill">
+                该文章的字数 <span id="view-word-count">0</span> 字
+            </div>
+            <button id="copy-btn" class="copy-button" onclick="copyArticleHtml()">
+                <span>📄</span> 一键复制正文 HTML
+            </button>
+        </main>
+    </div>
+    <script src="app.js?v=8"></script>
+</body>
+
+</html>

@@ -1,0 +1,55 @@
+# Generated content
+output/
+preview_app/articles/
+preview_app/data/articles.json
+illustrations/
+cover-image/
+infographic/
+x-to-markdown/
+reddit_mock.html
+*.docx
+
+# Session temp files
+.superpowers/
+
+# Local secrets and private overrides
+.env
+.env.*
+.baoyu-skills/.env
+
+# Dependency caches
+node_modules/
+**/node_modules/
+
+# System files
+.DS_Store
+__pycache__/
+*.pyc
+*.log
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Quality check reports
+output/*_质量报告.json
+
+# Claude Code 本地个人配置（含授权记录），不进仓库
+.claude/settings.local.json
+
+# 线上已发布文章的本地备份（fetch_published.py 产出，不进 Git）
+published/
+.x-browser-profile/
+
+# 图文成品（图片消息素材，本地保留，不进 Git，同 output/ 策略）
+img_outputs/
+
+# 浏览器自动化调试产物
+.playwright-mcp/
+
+# 根目录临时截图（调试/验证用）
+/*.png
+
+# 账号资料（真实号名/名片HTML/图床地址），本地私有，不进仓库
+account_profile.json
